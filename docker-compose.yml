@@ -1,0 +1,36 @@
+services:
+  mariadb-a8:
+    image: mariadb:11.4
+    container_name: mariadb-a8
+    environment:
+      MARIADB_ROOT_PASSWORD: root
+      MARIADB_DATABASE: app_a8
+    ports:
+      - "3307:3306"
+    volumes:
+      - mariadb_a8_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  mariadb-b8:
+    image: mariadb:11.4
+    container_name: mariadb-b8
+    environment:
+      MARIADB_ROOT_PASSWORD: root
+      MARIADB_DATABASE: app_b8
+    ports:
+      - "3308:3306"
+    volumes:
+      - mariadb_b8_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+volumes:
+  mariadb_a8_data:
+  mariadb_b8_data:

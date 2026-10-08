@@ -60,6 +60,13 @@
 			<artifactId>flyway-mysql</artifactId>
 		</dependency>
 
+		<!-- Spring Boot 4: la autoconfiguración de Flyway vive en un módulo aparte.
+		     Sin esta dependencia, spring.flyway.* no hace nada y no se ejecutan las migraciones. -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-flyway</artifactId>
+		</dependency>
+
 		<dependency>
 			<groupId>org.mariadb.jdbc</groupId>
 			<artifactId>mariadb-java-client</artifactId>
@@ -69,6 +76,13 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- Spring Boot 4: @AutoConfigureMockMvc (y el bean MockMvc) vive en este módulo. -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-webmvc-test</artifactId>
 			<scope>test</scope>
 		</dependency>
 
