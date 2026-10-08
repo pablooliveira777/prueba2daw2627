@@ -21,11 +21,12 @@ class PagesMigrationTest {
 
     @Test
     void flyway_shouldHaveAppliedV3() {
-        // H2 mayuscula los identificadores sin comillas; Flyway la crea en minusculas.
-        String version = jdbcTemplate.queryForObject(
-                "SELECT MAX(\"version\") FROM \"flyway_schema_history\"", String.class);
+        // Se comprueba que la version 3 esta REGISTRADA (no que sea la ultima):
+        // en develop, tras integrar B8, se aplican tambien V1..V4 y el MAX seria "4".
+        Integer applied = jdbcTemplate.queryForObject(
+                "SELECT COUNT(*) FROM \"flyway_schema_history\" WHERE \"version\" = '3'", Integer.class);
 
-        assertThat(version).isEqualTo("3");
+        assertThat(applied).isEqualTo(1);
     }
 
     @Test

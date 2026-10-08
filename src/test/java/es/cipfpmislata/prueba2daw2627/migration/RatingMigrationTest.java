@@ -21,11 +21,12 @@ class RatingMigrationTest {
 
     @Test
     void flyway_shouldHaveAppliedV4() {
-        // H2 mayuscula los identificadores sin comillas; Flyway la crea en minusculas.
-        String version = jdbcTemplate.queryForObject(
-                "SELECT MAX(\"version\") FROM \"flyway_schema_history\"", String.class);
+        // Se comprueba que la version 4 esta REGISTRADA (no que sea la ultima),
+        // para que el test siga valido si mas adelante se anade una V5.
+        Integer applied = jdbcTemplate.queryForObject(
+                "SELECT COUNT(*) FROM \"flyway_schema_history\" WHERE \"version\" = '4'", Integer.class);
 
-        assertThat(version).isEqualTo("4");
+        assertThat(applied).isEqualTo(1);
     }
 
     @Test
